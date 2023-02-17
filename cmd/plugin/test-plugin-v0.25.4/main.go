@@ -9,10 +9,10 @@ import (
 )
 
 var descriptor = cliv1alpha1.PluginDescriptor{
-	Name:        "test-plugin-v0.11.6",
-	Description: "its a test plugin for the runtime library v0.11.6",
-	Version:     "v0.11.6",
-	BuildSHA:    "aser8",
+	Name:        "test-plugin-v0.25.4",
+	Description: "its a test plugin for the runtime library v0.25.4",
+	Version:     "v0.25.4",
+	BuildSHA:    "SHA0254VER",
 	Group:       cliv1alpha1.ManageCmdGroup, // set group
 }
 
