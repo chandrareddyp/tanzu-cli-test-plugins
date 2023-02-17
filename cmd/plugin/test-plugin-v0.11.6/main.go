@@ -12,7 +12,7 @@ var descriptor = cliv1alpha1.PluginDescriptor{
 	Name:        "test-plugin-v0.11.6",
 	Description: "its a test plugin for the runtime library v0.11.6",
 	Version:     "v0.11.6",
-	BuildSHA:    "aser8",
+	BuildSHA:    "SHA0116VER",
 	Group:       cliv1alpha1.ManageCmdGroup, // set group
 }
 
