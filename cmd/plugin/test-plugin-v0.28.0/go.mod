@@ -53,5 +53,4 @@ require (
 
 replace (
 	github.com/vmware-tanzu/tanzu-framework/apis/cli => github.com/vmware-tanzu/tanzu-framework/apis/cli v0.0.0-20230214111918-af087107ddc3
-	sigs.k8s.io/cluster-api => sigs.k8s.io/cluster-api v1.2.8
 )
