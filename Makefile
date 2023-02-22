@@ -14,6 +14,8 @@ GOHOSTARCH ?= $(shell go env GOHOSTARCH)
 LD_FLAGS = -X 'github.com/vmware-tanzu/tanzu-plugin-runtime/plugin/buildinfo.Date=$(BUILD_DATE)'
 LD_FLAGS += -X 'github.com/vmware-tanzu/tanzu-plugin-runtime/plugin/buildinfo.SHA=$(BUILD_SHA)'
 LD_FLAGS += -X 'github.com/vmware-tanzu/tanzu-plugin-runtime/plugin/buildinfo.Version=$(BUILD_VERSION)'
+LD_FLAGS += -X 'github.com/vmware-tanzu/tanzu-framework/cli/runtime/buildinfo.Version=$(BUILD_VERSION)'
+LD_FLAGS += -X 'github.com/vmware-tanzu/tanzu-framework/pkg/v1/buildinfo.Version=$(BUILD_VERSION)'
 
 TOOLS_DIR := tools
 TOOLS_BIN_DIR := $(TOOLS_DIR)/bin
@@ -35,7 +37,6 @@ PLUGINS ?= ""
 ENVS ?= linux-amd64 windows-amd64 darwin-amd64
 
 BUILD_JOBS := $(addprefix build-,${ENVS})
-PUBLISH_JOBS := $(addprefix publish-,${ENVS})
 
 go.mod go.sum: $(GO_SRCS)
 	go mod download
@@ -43,39 +44,18 @@ go.mod go.sum: $(GO_SRCS)
 
 .PHONY: build-local
 build-local: ## Build the plugin
-	$(TZBIN) builder cli compile --version $(BUILD_VERSION) --ldflags "$(LD_FLAGS)" --path ./cmd/plugin --target local --artifacts artifacts/${GOHOSTOS}/${GOHOSTARCH}/cli
+	/Users/cpamuluri/tkg/tasks/e2e_tests/pluginCompatibility/anuj_plugin_builder/tanzu-cli/bin/builder plugin build --version $(BUILD_VERSION) --ldflags "$(LD_FLAGS)" --path ./cmd/plugin --artifacts artifacts --os-arch ${GOHOSTOS}_${GOHOSTARCH}
+## $(TZBIN) builder cli compile --version $(BUILD_VERSION) --ldflags "$(LD_FLAGS)" --path ./cmd/plugin --target local --artifacts artifacts/${GOHOSTOS}/${GOHOSTARCH}/cli
 
 .PHONY: build
-build: $(BUILD_JOBS) $(PUBLISH_JOBS) ## Build the plugin
+build: $(BUILD_JOBS)  ## Build the plugin
 
 .PHONY: build-%
 build-%:
 	$(eval ARCH = $(word 2,$(subst -, ,$*)))
 	$(eval OS = $(word 1,$(subst -, ,$*)))
-	$(TZBIN) builder cli compile --version $(BUILD_VERSION) --ldflags "$(LD_FLAGS)" --path ./cmd/plugin --artifacts artifacts/${OS}/${ARCH}/cli --target ${OS}_${ARCH}
+	/Users/cpamuluri/tkg/tasks/e2e_tests/pluginCompatibility/anuj_plugin_builder/tanzu-cli/bin/builder plugin build --version $(BUILD_VERSION) --ldflags "$(LD_FLAGS)" --path ./cmd/plugin --artifacts artifacts --os-arch ${OS}_${ARCH}
 
-publish-local: ## Publish the plugin to generate discovery and distribution directory for local OS_ARCH
-	$(TZBIN) builder publish --type local --plugins "$(PLUGINS)" --version $(BUILD_VERSION) --os-arch "${GOHOSTOS}-${GOHOSTARCH}" --local-output-discovery-dir "$(TANZU_PLUGIN_PUBLISH_PATH)/${GOHOSTOS}-${GOHOSTARCH}/discovery/standalone" --local-output-distribution-dir "$(TANZU_PLUGIN_PUBLISH_PATH)/${GOHOSTOS}-${GOHOSTARCH}/distribution" --input-artifact-dir $(ARTIFACTS_DIR)
-
-.PHONY: publish
-publish: $(PUBLISH_JOBS) ## Publish the plugin to generate discovery and distribution directory
-
-.PHONY: publish-%
-publish-%:
-	$(eval ARCH = $(word 2,$(subst -, ,$*)))
-	$(eval OS = $(word 1,$(subst -, ,$*)))
-	$(TZBIN) builder publish --type local --plugins "$(PLUGINS)" --version $(BUILD_VERSION) --os-arch "${OS}-${ARCH}" --local-output-discovery-dir "$(TANZU_PLUGIN_PUBLISH_PATH)/${OS}-${ARCH}/discovery/standalone" --local-output-distribution-dir "$(TANZU_PLUGIN_PUBLISH_PATH)/${OS}-${ARCH}/distribution" --input-artifact-dir $(ARTIFACTS_DIR)
-
-.PHONY: install-local
-install-local: ## Install the locally built plugins
-	$(TZBIN) plugin install all --local $(TANZU_PLUGIN_PUBLISH_PATH)/${GOHOSTOS}-${GOHOSTARCH}
-
-.PHONY: build-install-local
-build-install-local: build-local publish-local ## Build and Install plugin for local OS-ARCH
-	$(TZBIN) plugin install all --local $(TANZU_PLUGIN_PUBLISH_PATH)/${GOHOSTOS}-${GOHOSTARCH}
-
-.PHONY: release
-release: $(BUILD_JOBS) $(PUBLISH_JOBS) # Generates release directory structure for all plugins under `./artifacts/published` (default)
 
 .PHONY: lint
 lint: $(GOLANGCI_LINT) ## Lint the plugin

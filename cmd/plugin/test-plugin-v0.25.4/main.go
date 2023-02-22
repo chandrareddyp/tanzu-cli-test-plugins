@@ -5,13 +5,14 @@ import (
 
 	"github.com/aunum/log"
 	cliv1alpha1 "github.com/vmware-tanzu/tanzu-framework/apis/cli/v1alpha1"
+	"github.com/vmware-tanzu/tanzu-framework/pkg/v1/buildinfo"
 	plugin "github.com/vmware-tanzu/tanzu-framework/pkg/v1/cli/command/plugin"
 )
 
 var descriptor = cliv1alpha1.PluginDescriptor{
 	Name:        "test-plugin-v0.25.4",
 	Description: "its a test plugin for the runtime library v0.25.4",
-	Version:     "v0.25.4",
+	Version:     buildinfo.Version,
 	BuildSHA:    "SHA0254VER",
 	Group:       cliv1alpha1.ManageCmdGroup, // set group
 }
