@@ -44,7 +44,7 @@ go.mod go.sum: $(GO_SRCS)
 
 .PHONY: build-local
 build-local: ## Build the plugin
-	/Users/cpamuluri/tkg/tasks/e2e_tests/pluginCompatibility/anuj_plugin_builder/tanzu-cli/bin/builder plugin build --version $(BUILD_VERSION) --ldflags "$(LD_FLAGS)" --path ./cmd/plugin --artifacts artifacts --os-arch ${GOHOSTOS}_${GOHOSTARCH}
+	 $(TZBIN) builder plugin build --version $(BUILD_VERSION) --ldflags "$(LD_FLAGS)" --path ./cmd/plugin --artifacts artifacts --os-arch ${GOHOSTOS}_${GOHOSTARCH}
 ## $(TZBIN) builder cli compile --version $(BUILD_VERSION) --ldflags "$(LD_FLAGS)" --path ./cmd/plugin --target local --artifacts artifacts/${GOHOSTOS}/${GOHOSTARCH}/cli
 
 .PHONY: build
@@ -54,7 +54,7 @@ build: $(BUILD_JOBS)  ## Build the plugin
 build-%:
 	$(eval ARCH = $(word 2,$(subst -, ,$*)))
 	$(eval OS = $(word 1,$(subst -, ,$*)))
-	/Users/cpamuluri/tkg/tasks/e2e_tests/pluginCompatibility/anuj_plugin_builder/tanzu-cli/bin/builder plugin build --version $(BUILD_VERSION) --ldflags "$(LD_FLAGS)" --path ./cmd/plugin --artifacts artifacts --os-arch ${OS}_${ARCH}
+	$(TZBIN) builder plugin build --version $(BUILD_VERSION) --ldflags "$(LD_FLAGS)" --path ./cmd/plugin --artifacts artifacts --os-arch ${OS}_${ARCH}
 
 
 .PHONY: lint
