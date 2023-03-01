@@ -1,14 +1,16 @@
-# e2e-test-plugins
+# tanzu-cli-test-plugins
 
-Welcome, lets get started with your new Tanzu plugin repository.
+Welcome, Its test plugin repository for end-to-end test cases
+It has test plugins with different versions of Tanzu CLI Runtime Library https://github.com/vmware-tanzu/tanzu-plugin-runtime
 
-## Getting Started
+## Install builder plugin
 
-First, run `make init` to ensure your plugins go.sum is generated.
+We need builder plugin to create new plugins, build plugins, generate artifacts and publish artifacts.
+So run `make install-builder` which installs the builder plugin by downloading the builder plugin binary.
 
-## Generate a plugin
+## Add new plugin
 
-Add a plugin with the tanzu cli: `tanzu builder cli add-plugin myplugin`
+Add a plugin with the builder: `./bin/builder cli add-plugin myplugin`
 
 ## Directory Structure
 
@@ -18,7 +20,15 @@ cmd/plugin/<plugin>: Path where you plugins main directory will live
 
 cmd/plugin/<plugin>/test: Plugins are required to have a test command defined
 
-## Commands
+## How to update Tanzu Runtime Versions
 
-`make build`: builds your plugin artifacts
-`make lint`: run the golangci linter on your plugin code
+Go to specific plugin under ./cmd/plugin/<plugin-name> then update the go.mod file with the tanzu runtime versions
+
+## How to create and publish plugins
+
+To create and publish plugins to your own repository, update the location PLUGIN_PUBLISH_REPOSITORY in plugin-tooling.mk file
+then run `make plugin-build-and-publish-packages` to build and publish plugins
+Run `make inventory-init` to initialize the plugin inventory database
+Run `make inventory-plugin-insert` to update the plugins info in the inventory database
+
+In your CLI you point the remote central repository URL (which is same as PLUGIN_PUBLISH_REPOSITORY) to search/discover the plugins
