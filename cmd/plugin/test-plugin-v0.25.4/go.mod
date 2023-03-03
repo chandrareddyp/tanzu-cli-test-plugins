@@ -11,6 +11,7 @@ replace (
 
 require (
 	github.com/aunum/log v0.0.0-20200821225356-38d2e2c8b489
+	github.com/spf13/cobra v1.6.1
 	github.com/vmware-tanzu/tanzu-framework v0.25.4
 )
 
@@ -158,7 +159,6 @@ require (
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
-	github.com/spf13/cobra v1.6.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.10.1 // indirect

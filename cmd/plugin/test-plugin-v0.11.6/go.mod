@@ -12,6 +12,6 @@ replace (
 
 require (
 	github.com/aunum/log v0.0.0-20200821225356-38d2e2c8b489
-	github.com/spf13/cobra v1.6.1 // indirect
+	github.com/spf13/cobra v1.6.1
 	github.com/vmware-tanzu/tanzu-framework v0.11.6
 )
