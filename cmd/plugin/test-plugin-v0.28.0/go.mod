@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/aunum/log v0.0.0-20200821225356-38d2e2c8b489
+	github.com/spf13/cobra v1.5.0
 	github.com/vmware-tanzu/tanzu-framework/cli/runtime v0.0.0-20230214111918-af087107ddc3
 )
 
@@ -30,7 +31,6 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
-	github.com/spf13/cobra v1.5.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/vmware-tanzu/tanzu-framework/apis/cli v0.0.0-00010101000000-000000000000 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
@@ -51,6 +51,4 @@ require (
 	sigs.k8s.io/structured-merge-diff/v4 v4.2.1 // indirect
 )
 
-replace (
-	github.com/vmware-tanzu/tanzu-framework/apis/cli => github.com/vmware-tanzu/tanzu-framework/apis/cli v0.0.0-20230214111918-af087107ddc3
-)
+replace github.com/vmware-tanzu/tanzu-framework/apis/cli => github.com/vmware-tanzu/tanzu-framework/apis/cli v0.0.0-20230214111918-af087107ddc3
